@@ -22,7 +22,7 @@ namespace Models
         public double Preco { get; set; }
         [Required]
         public int Estoque { get; set; }
-        public int LocacoesRealizadas { get; set; }
+        public List<FilmeLocacao> locacoes = new List<FilmeLocacao>();
 
         public FilmeModels()
         {
@@ -36,27 +36,43 @@ namespace Models
             DataLancamento = dataLancamento;
             Preco = preco;
             Estoque = estoque;
-            LocacoesRealizadas = 0;
+
+            var db = new Context();
+            db.Filmes.Add(this);
+            db.SaveChanges();
         }
 
-        public static List<FilmeModels> GetFilme(int FilmeId)
+        public static List<FilmeModels> GetFilmes()
         {
             var db = new Context();
             return db.Filmes.ToList();
         }
 
+        public static FilmeModels GetFilme(int Filmeid)
+        {
+            var db = new Context();
+            return (from filme in db.Filmes
+                    where filme.FilmeId == Filmeid
+                    select filme).First();
+        }
+
         public override string ToString()
         {
+            var db = new Context();
+            int quantidadeLocacao = (
+                from filme in db.FilmeLocacao
+                where filme.FilmeId == FilmeId
+                select filme.FilmeId).Count();
 
-
-            return $"Dados Filme\n\n" +
-                   $"ID do Filme: {FilmeId}" +
-                   $"Título do Filme: {Titulo}" +
-                   $"Sinopse do Filme: {Sinopse}" +
-                   $"Data de Lançamento: {DataLancamento}" +
-                   $"Preço do Filme: {Preco}" +
-                   $"Estoque: {Estoque}" +
-                   $"Quantidade de Locações Realizadas: {LocacoesRealizadas}";
+            return $" ___________________Dados Filme____________________\n" +
+                   $"|ID do Filme: {FilmeId}\n" +
+                   $"|Título do Filme: {Titulo}\n" +
+                   $"|Sinopse do Filme: {Sinopse}\n" +
+                   $"|Data de Lançamento: {DataLancamento}\n" +
+                   $"|Preço do Filme: {Preco:C2}\n" +
+                   $"|Estoque: {Estoque}\n" +
+                   $"|Quantidade de Locações: {quantidadeLocacao}\n"+
+                   $"|__________________________________________________\n";
         }
     }
 }

@@ -42,7 +42,8 @@ namespace Models
 
         }
 
-        public void AtribuirLocacao(LocacaoModels locacao){
+        public void AtribuirLocacao(LocacaoModels locacao)
+        {
             locacoes.Add(locacao);
         }
 
@@ -53,22 +54,23 @@ namespace Models
         }
 
 
-        public static ClienteModels GetCliente(int Clienteid){
+        public static ClienteModels GetCliente(int Clienteid)
+        {
             var db = new Context();
             return (from cliente in db.Clientes
-            where cliente.ClienteId == Clienteid
-            select cliente).First();
+                    where cliente.ClienteId == Clienteid
+                    select cliente).First();
         }
 
         public override string ToString()
         {
-            return $"Dados Cliente\n\n" +
-                   $"ID do Cliente: {ClienteId}" +
-                   $"Nome do Cliente: {Nome}" +
-                   $"Data de Nascimento do Cliente: {DataNascimento}" +
-                   $"CPF do Cliente: {CPF}" +
-                   $"Dias para devolução do Cliente: {DiasdeDevolucao}"+
-                   $"------------------------------------------------";
+            return $"|-----------------Dados Cliente-------------------------\n" +
+                   $"|ID do Cliente: {ClienteId}\n" +
+                   $"|Nome do Cliente: {Nome}\n" +
+                   $"|Data de Nascimento do Cliente: {DataNascimento}\n" +
+                   $"|CPF do Cliente: {CPF}\n" +
+                   $"|Dias para devolução do Cliente: {DiasdeDevolucao}\n" +
+                   $"|-------------------------------------------------------";
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Views{
         }
 
         public static void ListarCliente(){
-            Console.WriteLine("Lista dos Clientes: "); 
+            Console.WriteLine("Lista de Clientes: "); 
             ClienteController.GetCliente().ForEach(cliente => Console.WriteLine(cliente));           
         }
 
