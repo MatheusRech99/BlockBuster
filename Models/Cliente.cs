@@ -21,6 +21,8 @@ namespace Models
         [Required]
         public int DiasdeDevolucao { get; set; }
 
+        public List<LocacaoModels> locacoes = new List<LocacaoModels>();
+
         public ClienteModels()
         {
 
@@ -32,6 +34,7 @@ namespace Models
             DataNascimento = dataNascimento;
             CPF = cpf;
             DiasdeDevolucao = diasdeDevolucao;
+            locacoes = new List<LocacaoModels>();
 
             var db = new Context();
             db.Clientes.Add(this);
@@ -39,10 +42,22 @@ namespace Models
 
         }
 
-        public static List<ClienteModels> GetCliente(int Clienteid)
+        public void AtribuirLocacao(LocacaoModels locacao){
+            locacoes.Add(locacao);
+        }
+
+        public static List<ClienteModels> GetCliente()
         {
             var db = new Context();
             return db.Clientes.ToList();
+        }
+
+
+        public static ClienteModels GetCliente(int Clienteid){
+            var db = new Context();
+            return (from cliente in db.Clientes
+            where cliente.ClienteId == Clienteid
+            select cliente).First();
         }
 
         public override string ToString()
